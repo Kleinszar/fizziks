@@ -1,24 +1,31 @@
-set (PROGRAM_NAME
-    Main
+set(core_lib_src_files
+    core.cpp
+    particle.cpp
 )
 
-set(src_files
-    main.cpp
-)
+# set(fizx_lib_src_files
+#     core.cpp
+# )
 
-add_executable(${PROGRAM_NAME} ${src_files})
-target_include_directories(${PROGRAM_NAME}
-#   PUBLIC ${PROJECT_SOURCE_DIR}/external_modules/glew/include
-#   PUBLIC ${PROJECT_SOURCE_DIR}/external_modules/glfw/include
-#   PUBLIC ${PROJECT_SOURCE_DIR}/external_modules/glm
-   PUBLIC ${PROJECT_SOURCE_DIR}/include
-)
-# target_compile_options(${PROGRAM_NAME} PRIVATE -Wall)
 
-# target_link_libraries(${PROGRAM_NAME} 
+add_library(core_lib ${core_lib_src_files})
+#add_library(fizx_lib ${fizx_lib_src_files})
+
+
+# target_link_libraries(graphics_lib
 #     PUBLIC glew
 #     PUBLIC glfw
 #     PUBLIC OpenGL::GL
-#     PUBLIC graphics_lib
-#     PUBLIC midi_lib
+# )
+
+target_include_directories(core_lib
+#    PUBLIC ${PROJECT_SOURCE_DIR}/external_modules/glew/include
+#    PUBLIC ${PROJECT_SOURCE_DIR}/external_modules/glfw/include
+    PUBLIC ${PROJECT_SOURCE_DIR}/include
+)
+
+# target_include_directories(fizx_lib
+# #    PUBLIC ${PROJECT_SOURCE_DIR}/external_modules/glew/include
+# #    PUBLIC ${PROJECT_SOURCE_DIR}/external_modules/glfw/include
+#     PUBLIC ${PROJECT_SOURCE_DIR}/include
 # )

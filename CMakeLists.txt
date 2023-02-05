@@ -19,7 +19,6 @@ foreach(OUTPUTCONFIG ${CMAKE_CONFIGURATION_TYPES})
     set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_${OUTPUTCONFIG} ${CMAKE_BINARY_DIR}/bin)
 endforeach(OUTPUTCONFIG CMAKE_CONFIGURATION_TYPES)
 
-add_subdirectory(${PROJECT_SOURCE_DIR}/src/lib)
 add_subdirectory(${PROJECT_SOURCE_DIR}/src)
 add_subdirectory(${PROJECT_SOURCE_DIR}/assets)
 add_subdirectory(${PROJECT_SOURCE_DIR}/tests)
