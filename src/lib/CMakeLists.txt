@@ -1,4 +1,5 @@
 set(core_lib_src_files
+    core.cpp
     particle.cpp
 )
 
