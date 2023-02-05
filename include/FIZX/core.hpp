@@ -5,8 +5,8 @@
 #include <stdexcept>
 #include <math.h>
 
-namespace fizx {
-
+namespace fizx
+{
     /**
      * 3D vector. 4 real data members are allocated for alignment.
     */

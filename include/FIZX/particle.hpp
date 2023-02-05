@@ -6,8 +6,8 @@
 #include <stdexcept>
 #include <math.h>
 
-namespace fizx {
-
+namespace fizx
+{
     /**
      * A simple point.
     */
