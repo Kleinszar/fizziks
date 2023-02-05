@@ -5,8 +5,6 @@
 #include <stdexcept>
 #include <math.h>
 
-#endif
-
 namespace fizx {
 
     /**
@@ -261,6 +259,6 @@ namespace fizx {
         }
 
     };
-
-
 }
+
+#endif

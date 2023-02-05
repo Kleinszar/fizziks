@@ -1,3 +1,6 @@
+#ifndef FIZX_PARAM
+#define FIZX_PARAM
+
 namespace fizx {
 
     /**
@@ -7,3 +10,5 @@ namespace fizx {
 
     
 }
+
+#endif
