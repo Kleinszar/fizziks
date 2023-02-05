@@ -1,0 +1,10 @@
+# Load Assets #
+set(shader_files
+#    main.vs
+#    main.fs
+)
+#${CMAKE_BINARY_DIRECTORY}/bin/${SHADER}
+# All shaders #
+foreach(SHADER ${shader_files})
+     configure_file(shaders/${SHADER} ${CMAKE_BINARY_DIR}/bin/${SHADER} COPYONLY)
+endforeach(SHADER)
