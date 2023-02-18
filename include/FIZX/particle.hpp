@@ -1,8 +1,8 @@
 #ifndef FIZX_PARTICLE
 #define FIZX_PARTICLE
 
-#include <FIZX/param.h>
-#include <FIZX/core.h>
+#include <FIZX/param.hpp>
+#include <FIZX/core.hpp>
 #include <stdexcept>
 #include <math.h>
 

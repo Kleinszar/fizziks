@@ -2,7 +2,7 @@
 #include <iostream>
 
 #include <assert.h>
-#include <FIZX/core.h>
+#include <FIZX/core.hpp>
 
 using namespace fizx;
 using namespace std;

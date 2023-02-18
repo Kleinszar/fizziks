@@ -1,7 +1,7 @@
 #ifndef FIZX_CORE
 #define FIZX_CORE
 
-#include <FIZX/param.h>
+#include <FIZX/param.hpp>
 #include <stdexcept>
 #include <math.h>
 

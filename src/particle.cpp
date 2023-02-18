@@ -1,5 +1,5 @@
 #include <assert.h>
-#include <FIZX/particle.h>
+#include <FIZX/particle.hpp>
 
 void fizx::Particle::integrate(real duration)
 {
