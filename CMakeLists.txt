@@ -36,3 +36,17 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 # set(CPACK_PROJECT_NAME ${PROJECT_NAME})
 # set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
 # include(CPack)
+
+set(app_dependencies
+    core_lib
+)
+
+# Main #
+# set(MAIN App)
+# add_executable(${MAIN} main.cpp)
+# target_link_libraries(${MAIN} ${app_dependencies})
+# target_include_directories(${MAIN} PRIVATE ${PROJECT_SOURCE_DIR})
+# target_include_directories(${MAIN} PRIVATE ${PROJECT_SOURCE_DIR}/include)
+# target_compile_options(${MAIN} PRIVATE -O3)
+
+

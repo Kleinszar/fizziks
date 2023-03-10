@@ -1,5 +1,8 @@
-#ifndef FIZX_PARAM
-#define FIZX_PARAM
+/**
+ * 
+*/
+
+#pragma once
 
 namespace fizx
 {
@@ -8,6 +11,10 @@ namespace fizx
     */
     typedef double real;
 
-}
+    /**
+     * Defines a bit length for sizes of arrays.
+     * @warning requires an unsigned value.
+    */
+    typedef int size_t;
 
-#endif
+} // namespace fizx

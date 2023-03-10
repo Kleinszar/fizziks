@@ -4,7 +4,7 @@
 void fizx::Particle::integrate(real duration)
 {
     // We don't integreate things with infinite mass.
-    if (inverseMass <= 0.0f) return;
+    if (inverse_mass <= 0.0f) return;
 
     assert(duration > 0.0);
 
@@ -12,10 +12,10 @@ void fizx::Particle::integrate(real duration)
     position.add_scaled_vector(velocity, duration);
 
     // Work out the acceleration from the force.
-    Vector3 resultingAcc = acceleration;
+    vec3f resulting_acc = acceleration;
 
     // Update linear velocity from the acceleration.
-    velocity.add_scaled_vector(resultingAcc, duration);
+    velocity.add_scaled_vector(resulting_acc, duration);
 
     // Impose drag.
     velocity *= pow(damping, duration);
@@ -27,46 +27,46 @@ void fizx::Particle::integrate(real duration)
 void fizx::Particle::set_mass(real mass)
 {
     if (mass == 0) throw std::domain_error("Mass cannot be zero");
-    if (mass < 0.0f) inverseMass = 0.0f;
-    else inverseMass = 1.0f / mass;
+    if (mass < 0.0f) inverse_mass = 0.0f;
+    else inverse_mass = 1.0f / mass;
 }
 
-void fizx::Particle::set_position(Vector3 pos)
+void fizx::Particle::set_position(vec3f pos)
 {
     position = pos;
 }
 
-void fizx::Particle::set_velocity(Vector3 vel)
+void fizx::Particle::set_velocity(vec3f vel)
 {
     velocity = vel;
 }
 
-void fizx::Particle::set_acceleration(Vector3 acc)
+void fizx::Particle::set_acceleration(vec3f acc)
 {
     acceleration = acc;
 }
 
-void fizx::Particle::add_force(Vector3 force)
+void fizx::Particle::add_force(vec3f force)
 {
     net_force += force;
 }
 
 void fizx::Particle::clear_forces()
 {
-    net_force = Vector3(0, 0, 0);
+    net_force = vec3f(0, 0, 0);
 }
 
-fizx::Vector3 fizx::Particle::get_position() const
+fizx::vec3f fizx::Particle::get_position() const
 {
     return position;
 }
 
-fizx::Vector3 fizx::Particle::get_velocity() const
+fizx::vec3f fizx::Particle::get_velocity() const
 {
     return velocity;
 }
 
-fizx::Vector3 fizx::Particle::get_acceleration() const
+fizx::vec3f fizx::Particle::get_acceleration() const
 {
     return acceleration;
 }

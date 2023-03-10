@@ -1,0 +1,86 @@
+#include <string>
+#include <iostream>
+#include <assert.h>
+
+#include <FIZX/vec.hpp>
+#include "test_lib.hpp"
+
+using namespace fizx;
+using namespace std;
+
+int main(void)
+{
+    cout << "TEST VECTOR" << endl;
+    bool error = false;
+
+    cout << "Floating point comparison test" << endl;
+    T_Assert(compare_real_equal(0.13, 0.13), "Floating point comparision");
+    T_Assert(compare_real_equal(-135.7, -135.7), "Floating point comparision");
+    T_Assert(compare_real_equal(1'000'000'000.1, 999'999'999.1 + 1.0), "Floating point comparision");
+    T_Assert(compare_real_equal(333'000.47859, 333'000.47000 + 0.00859), "Floating point comparision");
+
+    cout << "Creation and assignment test" << endl;
+    vec2f a(1.4, 2.4), b(-2.1, 4.9), c;
+
+    if (c[0] != 0 || c[1] != 0)
+    {
+        cout << "Fail: Vec init non zero: " << c.to_string() << endl;
+        error = true;
+    }
+
+    cout << "Addition test" << endl;
+    c = a + b;
+    if (T_Fail(compare_real_equal(c[0], -0.7), "Vec addition")) error = true;
+    if (T_Fail(compare_real_equal(c[1], 7.3), "Vec addition")) error = true;
+
+    cout << "Equality test" << endl;
+    if (T_Fail(c == vec2f(-0.7, 7.3), "Equality operator")) error = true;
+    if (T_Fail(c != vec2f(0.123, -456), "Inequality operator")) error = true;
+
+    cout << "Template test" << endl;
+    vec3f x, y, z;
+    vec4f u, v, w;
+
+
+    cout << "Scaling test" << endl;
+    x = vec3f(0.00001, 0.00001, 0.00001);
+    y = x * 3;
+    z = 3 * x;
+
+    if (T_Fail(y == z, "Commutative scalar multiplication")) error = true;
+    if (T_Fail(y == vec3f(0.00003, 0.00003, 0.00003), "Vec scaling")) error = true;
+    x *= vec3f(10, 100, 1000);
+    if (T_Fail(x == vec3f(0.0001, 0.001, 0.01), "Vec scaling element wise")) error = true;
+
+    cout << "Additional functionality test" << endl;
+    u = vec4f(0.3, 0.3, 0.3, 0.3);
+    v = vec4f(5, 5, 5, 5);
+    w = vec4f(0, 0, 0, 0);
+    u.add_scaled_vector(v, 0.2);
+    w.add_scaled_vector(vec4f(7.4, 7.4, 7.4, 7.4), 0.5);
+    v -= u;
+
+    if (T_Fail(w == vec4f(3.7, 3.7, 3.7, 3.7), "Add scaled vector")) error = true;
+    if (T_Fail(v == w, "Add scaled vector")) error = true;
+
+    cout << "Property test" << endl;
+    if (T_Fail(v.size() == 4, "Size property")) error = true;
+    v = vec4f(u.x(), u.y(), u.z(), u.w());
+    if (T_Fail(v == u, "Element alias property")) error = true;
+    
+    cout << "Dot product test" << endl;
+    u = vec4f(1, 2, -3, -2);
+    v = vec4f(-1, 2, 4, 0.5);
+    if (T_Fail(u * v == -10, "Dot product")) error = true;
+
+    if (error)
+    {
+        cout << "TEST VECTOR Ended with errors" << endl;
+    }   
+    else
+    {
+        cout << "TEST VECTOR PASSED" << endl;
+    }
+
+    return error;
+}
