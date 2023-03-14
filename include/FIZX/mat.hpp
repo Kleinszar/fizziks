@@ -8,7 +8,8 @@
 #include "vec.hpp"
 #include <string>
 
-namespace fizx {
+namespace fizx
+{
 
 template<typename T, size_t MRows, size_t NCols>
 class Matrix;
@@ -18,7 +19,7 @@ class Matrix;
 #define ROW_VEC Vector<T, NCols>
 #define COL_VEC Vector<T, MRows>
 
-// Alias
+// Alias //----------------------------------------------------------------------------------------
 using mat2f = Matrix<real, 2, 2>;
 using mat3f = Matrix<real, 3, 3>;
 using mat4f = Matrix<real, 4, 4>;
@@ -33,12 +34,14 @@ using mat4x3f = Matrix<real, 4, 3>;
 template<typename T, size_t MRows, size_t NCols>
 class Matrix
 {
+// Variables //------------------------------------------------------------------------------------
 private:
     // Row Major order
     Vector<T, NCols> values[MRows];
+
+// CONSTRUCTORS //---------------------------------------------------------------------------------
 public:
 
-    // CONSTRUCTORS //----------------------------------------------------------------------------
     Matrix() : values{{/*Empty*/}} {};
 
     /**
@@ -72,27 +75,10 @@ public:
     Matrix(std::enable_if_t<sizeof...(Tail) + 1 == MRows, ROW_VEC> head, Tail... tail)
     : values{head, static_cast<ROW_VEC>(tail)...} {};
 
+// OPERATORS //------------------------------------------------------------------------------------
+public:
 
-    ~Matrix()
-    {
-        // Empty
-    };
-
-    // OPERATORS //-------------------------------------------------------------------------------
-    
-    ////////////////////
-    // Assignment
-    /**
-     * Deep Copy Assignment Operator.
-    */
-    MATRIX& operator=(const MATRIX& other)
-    {
-        for (size_t m = 0; m < MRows; ++m)
-        {
-            values[m] = other[m];
-        }
-        return *this;
-    };
+    // Assignment op:
 
     /**
      * Row Assignment operator.
@@ -105,8 +91,8 @@ public:
         return values[index];
     };
 
-    ////////////////////
-    // Access
+    // Access op:
+
     /**
      * Access copy operator.
      * @param index - which row to copy.
@@ -119,8 +105,8 @@ public:
     };
 
 
-    ////////////////////
-    // Comparison
+    // Comparison op:
+
     bool operator==(const MATRIX& other)
     {
         return std::equal(&values[0], &values[MRows], &other.values[0]);
@@ -131,8 +117,8 @@ public:
         return !(*this == other);
     }
 
-    ////////////////////
-    // Matrix Scaling
+    // Matrix Scaling op:
+
     /**
      * @returns A copy of the matrix, scaled by a real constant.
     */
@@ -163,8 +149,8 @@ public:
         }
     }
 
-    ////////////////////
-    // Matrix Addition
+    // Matrix Addition op:
+    
     /**
      * Standard matrix addition, element wise.
      * @returns a copy of this matrix added with another matrix of the same dimensions.
@@ -192,8 +178,7 @@ public:
         }
     };
     
-    ////////////////////////
-    // Matrix Multiplication
+    // Matrix Multiplication op:
 
     /**
      * Matrix Multiply an MRows by NCols matrix (this) with an NCols by L_ELEMS matrix (other)
@@ -234,8 +219,13 @@ public:
     }
 
 
-    // METHODS //---------------------------------------------------------------------------------
+// METHODS //--------------------------------------------------------------------------------------
+public:
 
+    /**
+     * Convers the matrix to a string representation.
+     * @return A string representation of the matrix.
+    */
     std::string to_string() const
     {
         std::string s = "";

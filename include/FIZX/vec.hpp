@@ -13,7 +13,8 @@
 #include <array>
 
 
-namespace fizx {
+namespace fizx
+{
 
 template<typename T, size_t NElems>
 class Vector;
@@ -29,13 +30,14 @@ using vec2f = Vector<real, 2>;
 template<typename T, size_t NElems>
 class Vector
 {
+// Variables //------------------------------------------------------------------------------------
 private:
     // Array of elements
     //T values [NElems];
     std::array<T, NElems> values;
-public:
 
-    // CONSTRUCTORS //----------------------------------------------------------------------------
+// CONSTRUCTORS //----------------------------------------------------------------------------
+public:
     Vector() : values{{/*Empty*/}} {};
 
     /**
@@ -47,21 +49,10 @@ public:
     Vector(std::enable_if_t<sizeof...(Tail) + 1 == NElems, T> head, Tail... tail)
     : values{head, static_cast<T>(tail)...} {};
 
-    // OPERATORS //-------------------------------------------------------------------------------
+// OPERATORS //-------------------------------------------------------------------------------
+public:
 
-    ////////////////////
-    // Assignment
-    /**
-     * Deep Copy Assignment Operator
-    */
-    VECTOR& operator=(const VECTOR& other)
-    {
-        for (size_t n = 0; n < NElems; ++n)
-        {
-            values[n] = other[n];
-        }
-        return *this;
-    };
+    // Assignment:
 
     /**
      * Element Assignment operator.
@@ -74,8 +65,8 @@ public:
         return values[index];
     }
 
-    ////////////////////
-    // Access
+    // Access:
+
     /**
      * Gets the element at the specified index.
      * @returns the element at the index.
@@ -87,8 +78,8 @@ public:
         return values[index];
     };
 
-    ////////////////////
-    // Comparison
+
+    // Comparison:
 
     /**
      * Compares element by element if two vectors are equal.
@@ -111,8 +102,9 @@ public:
         return !(*this == other);
     }
 
-    ////////////////////
-    // Vector Scaling
+
+    // Vector Scaling:
+
     /**
      * @returns A copy of the vector, scaled by a real constant.
     */
@@ -136,8 +128,9 @@ public:
         }
     };
 
-    ////////////////////
-    // Vector Addition
+
+    // Vector Addition:
+
     /**
      * @returns a copy of this vector added with another vector of the same dimensions.
     */
@@ -182,8 +175,7 @@ public:
         }
     };
 
-    ////////////////////////
-    // Vector Multiplication
+    // Vector Multiplication:
 
     /**
      * @returns the vector's dot product with another vector.
@@ -207,8 +199,8 @@ public:
         }
     };
 
-    // PROPERTIES //------------------------------------------------------------------------------
-    
+// PROPERTIES //-----------------------------------------------------------------------------------
+public:
     /**
      * Dimension of the vector
      * @return the number of elements
@@ -218,6 +210,10 @@ public:
         return NElems;
     }
 
+    /**
+     * Convers the vector to a string representation.
+     * @return A string representation of the vector.
+    */
     std::string to_string() const
     {
         std::string s = "";
@@ -269,8 +265,8 @@ public:
     }
 
 
-    // METHODS //---------------------------------------------------------------------------------
-
+// METHODS //---------------------------------------------------------------------------------
+public:
     /**
      * Add a scaled other vector to this vector.
      * @param other - the other vector to add.
