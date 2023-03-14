@@ -73,6 +73,26 @@ int main(void)
     v = vec4f(-1, 2, 4, 0.5);
     if (T_Fail(u * v == -10, "Dot product")) error = true;
 
+
+    cout << "Copy and Move semantic test" << endl;
+    vec2f o_vec(2, 3);
+
+    vec2f c_vec(o_vec);
+    c_vec[0] = 0;
+    if (T_Fail(o_vec[0] == 2, "Copy constructor")) error = true;
+
+    c_vec = o_vec;
+    c_vec[0] = 0;
+    if (T_Fail(o_vec[0] == 2, "Copy assignment")) error = true;
+
+    vec2f m_vec(vec2f(0, 1));
+    if (T_Fail(m_vec == vec2f(0, 1), "Move constructor")) error = true;
+    
+    m_vec = vec2f(2, 3);
+    if (T_Fail(m_vec == vec2f(2, 3), "Move assignment")) error = true;
+
+
+
     if (error)
     {
         cout << "TEST VECTOR Ended with errors" << endl;

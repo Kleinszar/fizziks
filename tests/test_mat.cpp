@@ -95,6 +95,23 @@ int main(void)
     );
     if (T_Fail(p * q == r, "Matrix multiplication")) error = true;
 
+    cout << "Copy and Move semantic test" << endl;
+    mat2f o_mat(2, 3, 4, 5);
+
+    mat2f c_mat(o_mat);
+    c_mat[0][0] = 0;
+    if (T_Fail(o_mat[0][0] == 2, "Copy constructor")) error = true;
+
+    c_mat = o_mat;
+    c_mat[0][0] = 0;
+    if (T_Fail(o_mat[0][0] == 2, "Copy assignment")) error = true;
+
+    mat2f m_mat(mat2f(0, 1, 2, 3));
+    if (T_Fail(m_mat == mat2f(0, 1, 2, 3), "Move constructor")) error = true;
+    
+    m_mat = mat2f(2, 3, 1, 0);
+    if (T_Fail(m_mat == mat2f(2, 3, 1, 0), "Move assignment")) error = true;
+
     if (error)
     {
         cout << "TEST MATRIX Ended with errors" << endl;
