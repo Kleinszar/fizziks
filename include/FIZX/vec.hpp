@@ -16,7 +16,7 @@
 namespace fizx
 {
 
-template<typename T, size_t NElems>
+template <typename T, size_t NElems>
 class Vector;
 
 // Macro
@@ -27,18 +27,18 @@ using vec4f = Vector<real, 4>;
 using vec3f = Vector<real, 3>;
 using vec2f = Vector<real, 2>;
 
-template<typename T, size_t NElems>
+template <typename T, size_t NElems>
 class Vector
 {
 // Variables //------------------------------------------------------------------------------------
 private:
     // Array of elements
     //T values [NElems];
-    std::array<T, NElems> values;
+    std::array<T, NElems> values_;
 
 // CONSTRUCTORS //----------------------------------------------------------------------------
 public:
-    Vector() : values{{/*Empty*/}} {};
+    Vector() : values_{{/*Empty*/}} {};
 
     /**
      * Constructor for a vector of dimension NElems.
@@ -47,7 +47,7 @@ public:
     */
     template <typename... Tail>
     Vector(std::enable_if_t<sizeof...(Tail) + 1 == NElems, T> head, Tail... tail)
-    : values{head, static_cast<T>(tail)...} {};
+    : values_{head, static_cast<T>(tail)...} {};
 
 // OPERATORS //-------------------------------------------------------------------------------
 public:
@@ -62,7 +62,7 @@ public:
     {
         if (index >= NElems)
             throw std::runtime_error("Index Out of Bounds");
-        return values[index];
+        return values_[index];
     }
 
     // Access:
@@ -75,7 +75,7 @@ public:
     {
         if (index >= NElems)
             throw std::runtime_error("Index Out of Bounds");
-        return values[index];
+        return values_[index];
     };
 
 
@@ -88,7 +88,7 @@ public:
     {
         for (size_t n = 0; n < NElems; ++n)
         {
-            if (!compareRealEqual(values[n], other[n]))
+            if (!compareRealEqual(values_[n], other[n]))
                 return false;
         }
         return true;
@@ -113,7 +113,7 @@ public:
         VECTOR temp;
         for (size_t n = 0; n < NElems; ++n) {
 
-            temp[n] = values[n] * scalar;
+            temp[n] = values_[n] * scalar;
         }
         return temp;
     };
@@ -124,7 +124,7 @@ public:
     void operator*=(real scalar)
     {
         for (size_t n = 0; n < NElems; ++n) {
-            values[n] *= scalar;
+            values_[n] *= scalar;
         }
     };
 
@@ -138,7 +138,7 @@ public:
     {
         VECTOR temp;
         for (size_t n = 0; n < NElems; ++n) {
-            temp[n] = values[n] + other[n];
+            temp[n] = values_[n] + other[n];
         }
         return temp;
     };
@@ -149,7 +149,7 @@ public:
     void operator+=(const VECTOR& other)
     {
         for (size_t n = 0; n < NElems; ++n) {
-            values[n] += other[n];
+            values_[n] += other[n];
         }
     };
 
@@ -160,7 +160,7 @@ public:
     {
         VECTOR temp;
         for (size_t n = 0; n < NElems; ++n) {
-            temp[n] = values[n] - other[n];
+            temp[n] = values_[n] - other[n];
         }
         return temp;
     };
@@ -171,7 +171,7 @@ public:
     void operator-=(const VECTOR& other)
     {
         for (size_t n = 0; n < NElems; ++n) {
-            values[n] -= other[n];
+            values_[n] -= other[n];
         }
     };
 
@@ -184,7 +184,7 @@ public:
     {
         T dot_product = 0;
         for (size_t n = 0; n < NElems; ++n) {
-            dot_product += values[n] * other[n];
+            dot_product += values_[n] * other[n];
         }
         return dot_product;
     };
@@ -195,7 +195,7 @@ public:
     void operator*=(const VECTOR& other)
     {
         for (size_t n = 0; n < NElems; ++n) {
-            values[n] *= other[n];
+            values_[n] *= other[n];
         }
     };
 
@@ -219,7 +219,7 @@ public:
         std::string s = "";
         for (size_t n = 0; n < NElems; ++n)
         {
-            s += " " + std::to_string(values[n]);
+            s += " " + std::to_string(values_[n]);
         }
         return s;
     }
@@ -231,7 +231,7 @@ public:
     template <typename Q = T>
     std::enable_if_t<(NElems > 0), Q> x() const
     {
-        return values[0];
+        return values_[0];
     }
 
     /**
@@ -241,7 +241,7 @@ public:
     template <typename Q = T>
     std::enable_if_t<(NElems > 1), Q> y() const
     {
-        return values[1];
+        return values_[1];
     }
 
     /**
@@ -251,7 +251,7 @@ public:
     template <typename Q = T>
     std::enable_if_t<(NElems > 2), Q> z() const
     {
-        return values[2];
+        return values_[2];
     }
 
     /**
@@ -261,7 +261,7 @@ public:
     template <typename Q = T>
     std::enable_if_t<(NElems > 3), Q> w() const
     {
-        return values[3];
+        return values_[3];
     }
 
 
@@ -275,7 +275,7 @@ public:
     void addScaledVector(VECTOR& other, real scalar)
     {
         for (size_t n = 0; n < NElems; ++n) {
-            values[n] +=  other[n] *scalar;
+            values_[n] +=  other[n] *scalar;
         }
     }
 
@@ -287,7 +287,7 @@ public:
     {
         for (size_t n = 0; n < NElems; ++n)
         {
-            values[n] = val;
+            values_[n] = val;
         }
     }
 

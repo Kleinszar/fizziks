@@ -36,7 +36,7 @@ protected:
     };
 
     typedef std::vector<ParticleForceRegistration> Registry;
-    Registry registrations;
+    Registry registrations_;
 
 public:
 
@@ -70,7 +70,7 @@ class ParticleGravity : public ParticleForceGenerator
 {
 private:
     /** Holds the acceleration due to gravity. */
-    vec3f gravity;
+    vec3f gravity_;
 
 public:
 
@@ -86,10 +86,10 @@ class ParticleDrag : public ParticleForceGenerator
 {
 private:
     /** Holds the velocity drag coefficient */
-    real k1;
+    real k1_;
 
     /** Holds the velocity squared drag coefficient */
-    real k2;
+    real k2_;
 
 public:
 

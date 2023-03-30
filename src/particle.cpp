@@ -11,25 +11,25 @@ namespace fizx
 void Particle::integrate(real duration)
 {
     // We don't integreate things with infinite mass.
-    if (inverseMass <= 0.0f) return;
+    if (inverseMass_ <= 0.0f) return;
 
     assert(duration > 0.0);
 
     // Update linear position.
-    position.addScaledVector(velocity, duration);
+    position_.addScaledVector(velocity_, duration);
 
 
     // Work out the acceleration from the force.
-    vec3f resultingAcc = acceleration;
+    vec3f resultingAcc = acceleration_;
     // Acceleration = Force * mass^-1
-    resultingAcc.addScaledVector(forceAccum, inverseMass);
+    resultingAcc.addScaledVector(forceAccum_, inverseMass_);
 
 
     // Update linear velocity from the acceleration.
-    velocity.addScaledVector(resultingAcc, duration);
+    velocity_.addScaledVector(resultingAcc, duration);
 
     // Impose drag.
-    velocity *= pow(damping, duration);
+    velocity_ *= pow(damping_, duration);
 
     // Clear the forces
     clearAccum();
@@ -38,48 +38,48 @@ void Particle::integrate(real duration)
 void Particle::setMass(real mass)
 {
     if (mass == 0) throw std::domain_error("Mass cannot be zero");
-    if (mass < 0.0f) inverseMass = 0.0f;
-    else inverseMass = 1.0f / mass;
+    if (mass < 0.0f) inverseMass_ = 0.0f;
+    else inverseMass_ = 1.0f / mass;
 }
 
 void Particle::setPosition(vec3f pos)
 {
-    position = pos;
+    position_ = pos;
 }
 
 void Particle::setVelocity(vec3f vel)
 {
-    velocity = vel;
+    velocity_ = vel;
 }
 
 void Particle::setAcceleration(vec3f acc)
 {
-    acceleration = acc;
+    acceleration_ = acc;
 }
 
 void Particle::addForce(vec3f force)
 {
-    forceAccum += force;
+    forceAccum_ += force;
 }
 
 void Particle::clearAccum()
 {
-    forceAccum = vec3f(0.0, 0.0, 0.0);
+    forceAccum_ = vec3f(0.0, 0.0, 0.0);
 }
 
-vec3f Particle::getPosition() const
+vec3f Particle::position() const
 {
-    return position;
+    return position_;
 }
 
-vec3f Particle::getVelocity() const
+vec3f Particle::velocity() const
 {
-    return velocity;
+    return velocity_;
 }
 
-vec3f Particle::getAcceleration() const
+vec3f Particle::acceleration() const
 {
-    return acceleration;
+    return acceleration_;
 }
 
 } // namespace fizx

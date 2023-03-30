@@ -21,6 +21,19 @@ bool compareRealEqual(real a, real b) {
     return std::abs(a - b) < EPSILON_TOLERANCE;
 }
 
+/**
+ * Expands and prints a parameter pack.
+*/
+static inline void print (void)
+{}
+
+template <typename Head, typename... Tail>
+static inline void print (Head h, Tail... t)
+{
+  std::cout << h << std::endl;
+  print(t...);
+}
+
 // REMOVE TEMPORARY MACROS
 #undef EPSILON_TOLERANCE
 

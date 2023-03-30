@@ -21,26 +21,26 @@ protected:
     /**
      * Holds the linear position of the particle in world space.
     */
-    vec3f position;
+    vec3f position_;
 
     /**
      * Holds the linear velocity of the particle in world space.
     */
-    vec3f velocity;
+    vec3f velocity_;
 
     /**
      * Holds the acceleration of the particle.
      * This value can be used to set acceleration due to gravity.
      * Or any other constant acceleration.
     */
-    vec3f acceleration;
+    vec3f acceleration_;
 
     /**
     * Holds the amount of damping applied to linear
     * motion. Damping is required to remove energy added
     * through numerical instability in the integrator.
     */
-    real damping;
+    real damping_;
     
     /**
     * Holds the inverse of the mass of the particle. It
@@ -50,13 +50,13 @@ protected:
     * infinite mass (immovable) than zero mass
     * (completely unstable in numerical simulation).
     */
-    real inverseMass;
+    real inverseMass_;
 
     /**
     * Holds the accumulated forces on the particle.
     * Forces acting on a mass will result in acceleration.
     */
-    vec3f forceAccum;
+    vec3f forceAccum_;
 
 public:
     /**
@@ -67,7 +67,6 @@ public:
     */
     void integrate(real duration);
     
-
     /**
      * Setter for the mass (kg)
      * @param mass The mass in (kg), use a negative real number to set an infinite mass. Cannot be zero.
@@ -102,24 +101,24 @@ public:
      * Sets the net force to the zero vector.
     */
     void clearAccum();
-
+    
     /**
      * Gets the position of the vector;
      * @return A copy of the position vector.
     */
-    vec3f getPosition() const;
+    vec3f position() const;
 
     /**
      * Get the velocity of the vector;
      * @return A copy of the velocity vector.
     */
-    vec3f getVelocity() const;
+    vec3f velocity() const;
 
     /**
      * Get the acceleration of the vector;
      * @return A copy of the acceleration vector.
     */
-    vec3f getAcceleration() const;
+    vec3f acceleration() const;
 
     /**
      * Checks if the particle has infinite mass.

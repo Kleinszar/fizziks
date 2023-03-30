@@ -12,7 +12,7 @@ namespace fizx
 
 void ParticleForceRegistry::updateForces(real duration)
 {
-    for (auto i = registrations.begin(); i != registrations.end(); ++i)
+    for (auto i = registrations_.begin(); i != registrations_.end(); ++i)
     {
         i->fg->updateForce(i->particle, duration);
     }

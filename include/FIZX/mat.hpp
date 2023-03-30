@@ -11,7 +11,7 @@
 namespace fizx
 {
 
-template<typename T, size_t MRows, size_t NCols>
+template <typename T, size_t MRows, size_t NCols>
 class Matrix;
 
 // Macro
@@ -31,18 +31,18 @@ using mat4x2f = Matrix<real, 4, 2>;
 using mat3x4f = Matrix<real, 3, 4>;
 using mat4x3f = Matrix<real, 4, 3>;
 
-template<typename T, size_t MRows, size_t NCols>
+template <typename T, size_t MRows, size_t NCols>
 class Matrix
 {
 // Variables //------------------------------------------------------------------------------------
 private:
     // Row Major order
-    Vector<T, NCols> values[MRows];
+    Vector<T, NCols> values_[MRows];
 
 // CONSTRUCTORS //---------------------------------------------------------------------------------
 public:
 
-    Matrix() : values{{/*Empty*/}} {};
+    Matrix() : values_{{/*Empty*/}} {};
 
     /**
      * Constructor for a matrix with MRows rows and NCols columns.
@@ -58,7 +58,7 @@ public:
         {
             for (size_t n = 0; n < NCols; ++n)
             {
-                values[m][n] = temp[(NCols * m) + n];
+                values_[m][n] = temp[(NCols * m) + n];
             }
         }
 
@@ -73,7 +73,7 @@ public:
     */
     template <typename... Tail>
     Matrix(std::enable_if_t<sizeof...(Tail) + 1 == MRows, ROW_VEC> head, Tail... tail)
-    : values{head, static_cast<ROW_VEC>(tail)...} {};
+    : values_{head, static_cast<ROW_VEC>(tail)...} {};
 
 // OPERATORS //------------------------------------------------------------------------------------
 public:
@@ -88,7 +88,7 @@ public:
     {
         if (index >= MRows)
             throw std::runtime_error("Index Out of Bounds");
-        return values[index];
+        return values_[index];
     };
 
     // Access op:
@@ -101,7 +101,7 @@ public:
     {
         if (index >= MRows)
             throw std::runtime_error("Index Out of Bounds");
-        return values[index];
+        return values_[index];
     };
 
 
@@ -109,7 +109,7 @@ public:
 
     bool operator==(const MATRIX& other)
     {
-        return std::equal(&values[0], &values[MRows], &other.values[0]);
+        return std::equal(&values_[0], &values_[MRows], &other.values_[0]);
     }
 
     bool operator!=(const MATRIX& other)
@@ -129,7 +129,7 @@ public:
         {
             for (size_t n = 0; n < NCols; ++n)
             {
-                temp[m][n] = values[m][n] * scalar;
+                temp[m][n] = values_[m][n] * scalar;
             }
         }
         return temp;
@@ -144,7 +144,7 @@ public:
         {
             for (size_t n = 0; n < NCols; ++n)
             {
-                values[m][n] *= scalar;
+                values_[m][n] *= scalar;
             }
         }
     }
@@ -160,7 +160,7 @@ public:
         MATRIX temp;
         for (size_t m = 0; m < MRows; ++m) {
             for (size_t n = 0; n < NCols; ++n) {
-                temp[m][n] = values[m][n] + other[m][n];
+                temp[m][n] = values_[m][n] + other[m][n];
             }
         }
         return temp;
@@ -173,7 +173,7 @@ public:
     {
         for (size_t m = 0; m < MRows; ++m) {
             for (size_t n = 0; n < NCols; ++n) {
-                values[m][n] += other[m][n];
+                values_[m][n] += other[m][n];
             }
         }
     };
@@ -185,7 +185,7 @@ public:
      * O(MRows*NCols*L_ELEMS) runtime.
      * @return An MRows by L_ELEMS Matrix.
     */
-    template<typename T, size_t LElems>
+    template <typename T, size_t LElems>
     Matrix<T, MRows, LElems> operator*(const Matrix<T, NCols, LElems>& other) const
     {
         Matrix<T, MRows, LElems> temp;
@@ -197,7 +197,7 @@ public:
                 T sum = 0;
                 for (size_t n = 0; n < NCols; ++n)
                 {
-                    sum += values[m][n] * other[n][l];
+                    sum += values_[m][n] * other[n][l];
                 }
                 temp[m][l] = sum;
             }
@@ -213,7 +213,7 @@ public:
         ROW_VEC temp;
         for (size_t m = 0; m < MRows; ++m)
         {
-            temp[m] = values[m] * vector;
+            temp[m] = values_[m] * vector;
         }
         return temp;
     }
@@ -233,7 +233,7 @@ public:
         {
             for (size_t n = 0; n < NCols; ++n)
             {
-                s += " " + std::to_string(values[m][n]);
+                s += " " + std::to_string(values_[m][n]);
             }
             s += "\n";
         }
@@ -248,7 +248,7 @@ public:
     {
         if (index < MRows)
             throw std::runtime_error("Index Out Of Bounds");
-        return values[index]
+        return values_[index]
     }
 
     /**
@@ -262,17 +262,9 @@ public:
         COL_VEC temp;
         for (size_t m = 0; m < MRows; ++m)
         {
-            temp[m] = values[m][index]
+            temp[m] = values_[m][index]
         }
         return temp;
-    }
-
-    /**
-     * Transposes this matrix.
-    */
-    void transpose()
-    {
-        *this = getTranspose();
     }
 
     /**
@@ -288,14 +280,26 @@ public:
         return temp;
     }
 
+    /**
+     * Transposes this matrix.
+    */
+    void makeTranspose()
+    {
+        *this = getTranspose();
+    }
+
+
     // COMMON MATRICES //-------------------------------------------------------------------------
     
-    MATRIX diagonal(T val)
+    /**
+     * Constructs a diagonal matrix.
+    */
+    static MATRIX diagonal(T val)
     {
         MATRIX temp;
         for (size_t i = 0; i < MRows && i < NCols; ++i)
         {
-            values[i][i] = val;
+            temp[i][i] = val;
         }
         return temp;
     }
@@ -321,16 +325,6 @@ std::ostream& operator<<(std::ostream& os, const MATRIX& matrix)
 {
     os << matrix.toString();
     return os;
-}
-
-static inline void print (void)
-{}
-
-template <typename Head, typename... Tail>
-static inline void print (Head h, Tail... t)
-{
-  std::cout << h << std::endl;
-  print(t...);
 }
 
 // REMOVE TEMPORARY MACROS
