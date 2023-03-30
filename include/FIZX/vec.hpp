@@ -88,7 +88,7 @@ public:
     {
         for (size_t n = 0; n < NElems; ++n)
         {
-            if (!compare_real_equal(values[n], other[n]))
+            if (!compareRealEqual(values[n], other[n]))
                 return false;
         }
         return true;
@@ -214,7 +214,7 @@ public:
      * Convers the vector to a string representation.
      * @return A string representation of the vector.
     */
-    std::string to_string() const
+    std::string toString() const
     {
         std::string s = "";
         for (size_t n = 0; n < NElems; ++n)
@@ -272,7 +272,7 @@ public:
      * @param other - the other vector to add.
      * @param scalar - the value to scale the other vector by.
     */
-    void add_scaled_vector(VECTOR& other, real scalar)
+    void addScaledVector(VECTOR& other, real scalar)
     {
         for (size_t n = 0; n < NElems; ++n) {
             values[n] +=  other[n] *scalar;
@@ -310,7 +310,7 @@ VECTOR operator*(real scalar, const VECTOR& vector)
 template <typename T, size_t NElems>
 std::ostream& operator<<(std::ostream& os, const VECTOR& vector)
 {
-    os << vector.to_string();
+    os << vector.toString();
     return os;
 }
 

@@ -4,7 +4,7 @@
 #include <assert.h>
 
 #include <FIZX/mat.hpp>
-#include "test_lib.hpp"
+#include "testlib.hpp"
 
 using namespace fizx;
 using namespace std;
@@ -29,10 +29,10 @@ int main(void)
 
     cout << "Addition test" << endl;
     c = a + b;
-    if (T_Fail(compare_real_equal(c[0][0], 4.8), "Matrix addition")) error = true;
-    if (T_Fail(compare_real_equal(c[0][1], -0.1), "Matrix addition")) error = true;
-    if (T_Fail(compare_real_equal(c[1][0], -1.1), "Matrix addition")) error = true;
-    if (T_Fail(compare_real_equal(c[1][1], 6.1), "Matrix addition")) error = true;
+    if (T_Fail(compareRealEqual(c[0][0], 4.8), "Matrix addition")) error = true;
+    if (T_Fail(compareRealEqual(c[0][1], -0.1), "Matrix addition")) error = true;
+    if (T_Fail(compareRealEqual(c[1][0], -1.1), "Matrix addition")) error = true;
+    if (T_Fail(compareRealEqual(c[1][1], 6.1), "Matrix addition")) error = true;
     
     cout << "Equality test" << endl;
     if (T_Fail(c == mat2f(4.8, -0.1, -1.1, 6.1), "Matrix addition")) error = true;

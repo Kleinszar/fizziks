@@ -50,13 +50,13 @@ protected:
     * infinite mass (immovable) than zero mass
     * (completely unstable in numerical simulation).
     */
-    real inverse_mass;
+    real inverseMass;
 
     /**
     * Holds the accumulated forces on the particle.
     * Forces acting on a mass will result in acceleration.
     */
-    vec3f net_force;
+    vec3f forceAccum;
 
 public:
     /**
@@ -72,55 +72,59 @@ public:
      * Setter for the mass (kg)
      * @param mass The mass in (kg), use a negative real number to set an infinite mass. Cannot be zero.
     */
-    void set_mass(real mass);
+    void setMass(real mass);
 
     /**
      * Setter for the position (m).
      * @param pos 3D vector of the position of a particle in the world frame.
     */
-    void set_position(vec3f position);
+    void setPosition(vec3f position);
 
     /**
      * Setter for the velocity (m/s).
      * @param vel 3D vector of the relative velocity in the world frame.
     */
-    void set_velocity(vec3f velocity);
+    void setVelocity(vec3f velocity);
 
     /**
      * Setter for the acceleration (m/s^2)
      * @param acc 3D vector of the relative acceleration in the world frame.
     */
-    void set_acceleration(vec3f acceleration);
+    void setAcceleration(vec3f acceleration);
 
     /**
      * Adds a force to the particle for the next integration step.
      * @param force 3D force vector
     */
-    void add_force(vec3f force);
+    void addForce(vec3f force);
 
     /**
      * Sets the net force to the zero vector.
     */
-    void clear_forces();
+    void clearAccum();
 
     /**
      * Gets the position of the vector;
      * @return A copy of the position vector.
     */
-    vec3f get_position() const;
+    vec3f getPosition() const;
 
     /**
      * Get the velocity of the vector;
      * @return A copy of the velocity vector.
     */
-    vec3f get_velocity() const;
+    vec3f getVelocity() const;
 
     /**
      * Get the acceleration of the vector;
      * @return A copy of the acceleration vector.
     */
-    vec3f get_acceleration() const;
+    vec3f getAcceleration() const;
 
+    /**
+     * Checks if the particle has infinite mass.
+    */
+    bool hasInfiniteMass() const;
 };
 
 } // namespace fizx

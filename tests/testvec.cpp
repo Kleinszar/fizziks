@@ -3,7 +3,7 @@
 #include <assert.h>
 
 #include <FIZX/vec.hpp>
-#include "test_lib.hpp"
+#include "testlib.hpp"
 
 using namespace fizx;
 using namespace std;
@@ -14,24 +14,24 @@ int main(void)
     bool error = false;
 
     cout << "Floating point comparison test" << endl;
-    T_Assert(compare_real_equal(0.13, 0.13), "Floating point comparision");
-    T_Assert(compare_real_equal(-135.7, -135.7), "Floating point comparision");
-    T_Assert(compare_real_equal(1'000'000'000.1, 999'999'999.1 + 1.0), "Floating point comparision");
-    T_Assert(compare_real_equal(333'000.47859, 333'000.47000 + 0.00859), "Floating point comparision");
+    T_Assert(compareRealEqual(0.13, 0.13), "Floating point comparision");
+    T_Assert(compareRealEqual(-135.7, -135.7), "Floating point comparision");
+    T_Assert(compareRealEqual(1'000'000'000.1, 999'999'999.1 + 1.0), "Floating point comparision");
+    T_Assert(compareRealEqual(333'000.47859, 333'000.47000 + 0.00859), "Floating point comparision");
 
     cout << "Creation and assignment test" << endl;
     vec2f a(1.4, 2.4), b(-2.1, 4.9), c;
 
     if (c[0] != 0 || c[1] != 0)
     {
-        cout << "Fail: Vec init non zero: " << c.to_string() << endl;
+        cout << "Fail: Vec init non zero: " << c.toString() << endl;
         error = true;
     }
 
     cout << "Addition test" << endl;
     c = a + b;
-    if (T_Fail(compare_real_equal(c[0], -0.7), "Vec addition")) error = true;
-    if (T_Fail(compare_real_equal(c[1], 7.3), "Vec addition")) error = true;
+    if (T_Fail(compareRealEqual(c[0], -0.7), "Vec addition")) error = true;
+    if (T_Fail(compareRealEqual(c[1], 7.3), "Vec addition")) error = true;
 
     cout << "Equality test" << endl;
     if (T_Fail(c == vec2f(-0.7, 7.3), "Equality operator")) error = true;
@@ -56,8 +56,8 @@ int main(void)
     u = vec4f(0.3, 0.3, 0.3, 0.3);
     v = vec4f(5, 5, 5, 5);
     w = vec4f(0, 0, 0, 0);
-    u.add_scaled_vector(v, 0.2);
-    w.add_scaled_vector(vec4f(7.4, 7.4, 7.4, 7.4), 0.5);
+    u.addScaledVector(v, 0.2);
+    w.addScaledVector(vec4f(7.4, 7.4, 7.4, 7.4), 0.5);
     v -= u;
 
     if (T_Fail(w == vec4f(3.7, 3.7, 3.7, 3.7), "Add scaled vector")) error = true;

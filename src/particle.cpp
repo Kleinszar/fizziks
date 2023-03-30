@@ -1,72 +1,85 @@
 #include <assert.h>
 #include <FIZX/particle.hpp>
 
-void fizx::Particle::integrate(real duration)
+namespace fizx
+{
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+// CLASS Particle //-------------------------------------------------------------------------------
+///////////////////////////////////////////////////////////////////////////////////////////////////
+
+void Particle::integrate(real duration)
 {
     // We don't integreate things with infinite mass.
-    if (inverse_mass <= 0.0f) return;
+    if (inverseMass <= 0.0f) return;
 
     assert(duration > 0.0);
 
     // Update linear position.
-    position.add_scaled_vector(velocity, duration);
+    position.addScaledVector(velocity, duration);
+
 
     // Work out the acceleration from the force.
-    vec3f resulting_acc = acceleration;
+    vec3f resultingAcc = acceleration;
+    // Acceleration = Force * mass^-1
+    resultingAcc.addScaledVector(forceAccum, inverseMass);
+
 
     // Update linear velocity from the acceleration.
-    velocity.add_scaled_vector(resulting_acc, duration);
+    velocity.addScaledVector(resultingAcc, duration);
 
     // Impose drag.
     velocity *= pow(damping, duration);
 
     // Clear the forces
-    clear_forces();
+    clearAccum();
 }
 
-void fizx::Particle::set_mass(real mass)
+void Particle::setMass(real mass)
 {
     if (mass == 0) throw std::domain_error("Mass cannot be zero");
-    if (mass < 0.0f) inverse_mass = 0.0f;
-    else inverse_mass = 1.0f / mass;
+    if (mass < 0.0f) inverseMass = 0.0f;
+    else inverseMass = 1.0f / mass;
 }
 
-void fizx::Particle::set_position(vec3f pos)
+void Particle::setPosition(vec3f pos)
 {
     position = pos;
 }
 
-void fizx::Particle::set_velocity(vec3f vel)
+void Particle::setVelocity(vec3f vel)
 {
     velocity = vel;
 }
 
-void fizx::Particle::set_acceleration(vec3f acc)
+void Particle::setAcceleration(vec3f acc)
 {
     acceleration = acc;
 }
 
-void fizx::Particle::add_force(vec3f force)
+void Particle::addForce(vec3f force)
 {
-    net_force += force;
+    forceAccum += force;
 }
 
-void fizx::Particle::clear_forces()
+void Particle::clearAccum()
 {
-    net_force = vec3f(0, 0, 0);
+    forceAccum = vec3f(0.0, 0.0, 0.0);
 }
 
-fizx::vec3f fizx::Particle::get_position() const
+vec3f Particle::getPosition() const
 {
     return position;
 }
 
-fizx::vec3f fizx::Particle::get_velocity() const
+vec3f Particle::getVelocity() const
 {
     return velocity;
 }
 
-fizx::vec3f fizx::Particle::get_acceleration() const
+vec3f Particle::getAcceleration() const
 {
     return acceleration;
 }
+
+} // namespace fizx

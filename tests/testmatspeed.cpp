@@ -4,7 +4,7 @@
 #include <iostream>
 #include <chrono>
 
-#include "test_lib.hpp"
+#include "testlib.hpp"
 
 using namespace fizx;
 
@@ -35,10 +35,10 @@ int main(void)
     b[0].x();
     std::chrono::steady_clock::time_point end = std::chrono::steady_clock::now();
 
-    std::cout << "a:\n" << a.to_string() << std::endl;
-    std::cout << "b:\n" << b.to_string() << std::endl;
-    std::cout << "c:\n" << c.to_string() << std::endl;
-    std::cout << "d:\n" << d.to_string() << std::endl;
+    std::cout << "a:\n" << a.toString() << std::endl;
+    std::cout << "b:\n" << b.toString() << std::endl;
+    std::cout << "c:\n" << c.toString() << std::endl;
+    std::cout << "d:\n" << d.toString() << std::endl;
 
     std::cout << "Time difference = " << std::chrono::duration_cast<std::chrono::microseconds>(end - begin).count() << "[us]" << std::endl;
     std::cout << "Time difference = " << std::chrono::duration_cast<std::chrono::nanoseconds> (end - begin).count() << "[ns]" << std::endl;

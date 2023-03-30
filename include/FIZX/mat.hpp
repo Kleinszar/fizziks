@@ -226,7 +226,7 @@ public:
      * Convers the matrix to a string representation.
      * @return A string representation of the matrix.
     */
-    std::string to_string() const
+    std::string toString() const
     {
         std::string s = "";
         for (size_t m = 0; m < MRows; ++m)
@@ -244,7 +244,7 @@ public:
      * Gets a row of the matrix (0 indexed)
      * @param index - the index of the row.
     */
-    ROW_VEC get_row(size_t index)
+    ROW_VEC getRow(size_t index) const
     {
         if (index < MRows)
             throw std::runtime_error("Index Out Of Bounds");
@@ -255,7 +255,7 @@ public:
      * Gets a column of the matrix (0 indexed)
      * @param index - the index of the column.
     */
-    COL_VEC get_col(size_t index)
+    COL_VEC getCol(size_t index) const
     {
         if (index < NCols)
             throw std::runtime_error("Index Out Of Bounds");
@@ -272,18 +272,18 @@ public:
     */
     void transpose()
     {
-        *this = get_transpose();
+        *this = getTranspose();
     }
 
     /**
      * Gets the transpose of the matrix
     */
-    Matrix<T, NCols, MRows> get_transpose() const
+    Matrix<T, NCols, MRows> getTranspose() const
     {
         Matrix<T, NCols, MRows> temp;
         for (size_t n = 0; n < NCols; ++n)
         {
-            temp[n] = get_col(n);
+            temp[n] = col(n);
         }
         return temp;
     }
@@ -319,7 +319,7 @@ MATRIX operator*(real scalar, const MATRIX& matrix)
 template <typename T, size_t MRows, size_t NCols>
 std::ostream& operator<<(std::ostream& os, const MATRIX& matrix)
 {
-    os << matrix.to_string();
+    os << matrix.toString();
     return os;
 }
 

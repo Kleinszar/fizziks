@@ -17,7 +17,7 @@ namespace fizx
 /**
  * Compares two floating point values with a tolarance of EPSILON_TOLERANCE
 */
-bool compare_real_equal(real a, real b) {
+bool compareRealEqual(real a, real b) {
     return std::abs(a - b) < EPSILON_TOLERANCE;
 }
 
