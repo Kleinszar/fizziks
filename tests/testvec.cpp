@@ -92,6 +92,15 @@ int main(void)
     if (T_Fail(m_vec == vec2f(2, 3), "Move assignment")) error = true;
 
 
+    cout << "Vector operations square, length, and normalize" << endl;
+    vec2f n_vec(vec2f(3, 4));
+    if (T_Fail(compareRealEqual(n_vec.squared(), 25), "Squared")) error = true;
+    if (T_Fail(compareRealEqual(n_vec.length(), 5), "Length")) error = true;
+    if (T_Fail(n_vec.getNormal() == vec2f(0.6, 0.8), "Get Normal")) error = true;
+
+    n_vec.normalize();
+    if (T_Fail(n_vec == vec2f(0.6, 0.8), "Normalize")) error = true;
+
 
     if (error)
     {

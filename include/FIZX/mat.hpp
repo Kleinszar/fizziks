@@ -34,7 +34,7 @@ using mat4x3f = Matrix<real, 4, 3>;
 template <typename T, size_t MRows, size_t NCols>
 class Matrix
 {
-// Variables //------------------------------------------------------------------------------------
+// VARIABLES //------------------------------------------------------------------------------------
 private:
     // Row Major order
     Vector<T, NCols> values_[MRows];
@@ -95,7 +95,7 @@ public:
 
     /**
      * Access copy operator.
-     * @param index - which row to copy.
+     * @return A copy of the index row.
     */
     ROW_VEC operator[](size_t index) const
     {
@@ -120,7 +120,7 @@ public:
     // Matrix Scaling op:
 
     /**
-     * @returns A copy of the matrix, scaled by a real constant.
+     * @return A copy of the matrix, scaled by a real constant.
     */
     MATRIX operator*(real scalar) const
     {
@@ -153,7 +153,7 @@ public:
     
     /**
      * Standard matrix addition, element wise.
-     * @returns a copy of this matrix added with another matrix of the same dimensions.
+     * @return A copy of this matrix added with another matrix of the same dimensions.
     */
     MATRIX operator+(const MATRIX& other) const
     {
@@ -217,7 +217,6 @@ public:
         }
         return temp;
     }
-
 
 // METHODS //--------------------------------------------------------------------------------------
 public:

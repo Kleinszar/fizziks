@@ -11,6 +11,7 @@
 #include "param.hpp"
 #include "common.hpp"
 #include <array>
+#include <cmath>
 
 
 namespace fizx
@@ -30,33 +31,33 @@ using vec2f = Vector<real, 2>;
 template <typename T, size_t NElems>
 class Vector
 {
-// Variables //------------------------------------------------------------------------------------
+// VARIABLES //------------------------------------------------------------------------------------
 private:
     // Array of elements
     //T values [NElems];
     std::array<T, NElems> values_;
 
-// CONSTRUCTORS //----------------------------------------------------------------------------
+// CONSTRUCTORS //---------------------------------------------------------------------------------
 public:
     Vector() : values_{{/*Empty*/}} {};
 
     /**
      * Constructor for a vector of dimension NElems.
-     * @param head - first argument.
-     * @param tail - rest of the argument list.
+     * @param head - First argument.
+     * @param tail - Rest of the argument list.
     */
     template <typename... Tail>
     Vector(std::enable_if_t<sizeof...(Tail) + 1 == NElems, T> head, Tail... tail)
     : values_{head, static_cast<T>(tail)...} {};
 
-// OPERATORS //-------------------------------------------------------------------------------
+// OPERATORS //------------------------------------------------------------------------------------
 public:
 
     // Assignment:
 
     /**
      * Element Assignment operator.
-     * @param index - which element to change.
+     * @param index - Which element to change.
     */
     real& operator[](size_t index)
     {
@@ -69,7 +70,7 @@ public:
 
     /**
      * Gets the element at the specified index.
-     * @returns the element at the index.
+     * @return The element at the index.
     */
     real operator[](size_t index) const
     {
@@ -106,7 +107,7 @@ public:
     // Vector Scaling:
 
     /**
-     * @returns A copy of the vector, scaled by a real constant.
+     * @return A copy of the vector, scaled by a real constant.
     */
     VECTOR operator*(real scalar) const
     {
@@ -132,7 +133,7 @@ public:
     // Vector Addition:
 
     /**
-     * @returns a copy of this vector added with another vector of the same dimensions.
+     * @return A copy of this vector added with another vector of the same dimensions.
     */
     VECTOR operator+(const VECTOR& other) const
     {
@@ -154,7 +155,7 @@ public:
     };
 
     /**
-     * @returns a copy of this vector added with another vector of the same dimensions.
+     * @return A copy of this vector added with another vector of the same dimensions.
     */
     VECTOR operator-(const VECTOR& other) const
     {
@@ -178,7 +179,7 @@ public:
     // Vector Multiplication:
 
     /**
-     * @returns the vector's dot product with another vector.
+     * @return The vector's dot product with another vector.
     */
     real operator*(const VECTOR& other) const
     {
@@ -203,7 +204,7 @@ public:
 public:
     /**
      * Dimension of the vector
-     * @return the number of elements
+     * @return The number of elements
     */
     size_t size()
     {
@@ -226,7 +227,7 @@ public:
 
     /**
      * Gets the first element of the vector
-     * @return the first element
+     * @return The first element
     */
     template <typename Q = T>
     std::enable_if_t<(NElems > 0), Q> x() const
@@ -236,7 +237,7 @@ public:
 
     /**
      * Gets the second element of the vector
-     * @return the second element
+     * @return The second element
     */
     template <typename Q = T>
     std::enable_if_t<(NElems > 1), Q> y() const
@@ -246,7 +247,7 @@ public:
 
     /**
      * Gets the third element of the vector
-     * @return the third element
+     * @return The third element
     */
     template <typename Q = T>
     std::enable_if_t<(NElems > 2), Q> z() const
@@ -256,7 +257,7 @@ public:
 
     /**
      * Gets the fourth element of the vector
-     * @return the fourth element
+     * @return The fourth element
     */
     template <typename Q = T>
     std::enable_if_t<(NElems > 3), Q> w() const
@@ -264,13 +265,12 @@ public:
         return values_[3];
     }
 
-
-// METHODS //---------------------------------------------------------------------------------
+// METHODS //--------------------------------------------------------------------------------------
 public:
     /**
      * Add a scaled other vector to this vector.
-     * @param other - the other vector to add.
-     * @param scalar - the value to scale the other vector by.
+     * @param other - The other vector to add.
+     * @param scalar - The value to scale the other vector by.
     */
     void addScaledVector(VECTOR& other, real scalar)
     {
@@ -281,9 +281,9 @@ public:
 
     /**
      * Initialize all elements to one value.
-     * @param val - the value to set for every element.
+     * @param val - The value to set for every element.
     */
-    VECTOR init(T val)
+    void init(T val)
     {
         for (size_t n = 0; n < NElems; ++n)
         {
@@ -291,9 +291,48 @@ public:
         }
     }
 
+    /**
+     * Gets the square of the length for this vector
+     * @return - The square sum of this vector.
+    */
+    real squared() const
+    {
+        return (*this) * (*this);
+    }
+
+    /**
+     * Gets the length of the vector.
+    */
+    real length() const
+    {
+        return sqrt(this->squared());
+    }
+
+    /**
+     * Get a normalized version of the vector.
+     * @return A normal vector.
+    */
+    Vector<real, NElems> getNormal() const
+    {
+        real length = this->length();
+        Vector<real, NElems> temp;
+        for (size_t n = 0; n < NElems; ++n) {
+            temp[n] = values_[n] / length;
+        }
+        return temp;
+    }
+
+    /**
+     * Normalizes this vector.
+    */
+    void normalize()
+    {
+        *this = this->getNormal();
+    }
+
 };
 
-// COMMOM OPERATORS //-----------------------------------------------------------------------
+// COMMOM OPERATORS //-----------------------------------------------------------------------------
 
 /**
  * Delegates to the vector scaling member function.
